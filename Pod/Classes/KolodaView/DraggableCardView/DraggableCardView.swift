@@ -22,7 +22,7 @@ protocol DraggableCardDelegate: class {
     func card(_ card: DraggableCardView, wasSwipedIn direction: SwipeResultDirection)
     func card(_ card: DraggableCardView, shouldSwipeIn direction: SwipeResultDirection) -> Bool
     func card(cardWasReset card: DraggableCardView)
-    func card(cardWasTapped card: DraggableCardView)
+    func card(cardWasTapped card: DraggableCardView, at position: CGPoint)
     func card(cardSwipeThresholdRatioMargin card: DraggableCardView) -> CGFloat?
     func card(cardAllowedDirections card: DraggableCardView) -> [SwipeResultDirection]
     func card(cardShouldDrag card: DraggableCardView) -> Bool
@@ -291,7 +291,8 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
     }
     
     @objc func tapRecognized(_ recogznier: UITapGestureRecognizer) {
-        delegate?.card(cardWasTapped: self)
+        let location = recogznier.location(in: self)
+        delegate?.card(cardWasTapped: self, at: location)
     }
     
     //MARK: Private
