@@ -224,7 +224,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
                 return self.bounds
             }
             let prevCardFrame = frameForCard(at: max(index - 1, 0))
-            let yOffset = (prevCardFrame.height - height + prevCardFrame.origin.y + backgroundCardsTopMargin)
+            let yOffset = (prevCardFrame.height - height) / 2
             let frame = CGRect(x: xOffset, y: yOffset, width: width, height: height)
             
             return frame
