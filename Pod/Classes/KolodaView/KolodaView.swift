@@ -217,12 +217,14 @@ open class KolodaView: UIView, DraggableCardDelegate {
         let scalePercent = backgroundCardsScalePercent
         let width = self.frame.width * pow(scalePercent, CGFloat(index))
         let xOffset = (self.frame.width - width) / 2
-        let height = index > 0 ? (self.frame.height - bottomOffset - topOffset) * pow(scalePercent, CGFloat(index)) : self.frame.height
+        let height = (self.frame.height - bottomOffset - topOffset) * pow(scalePercent, CGFloat(index))
 
         if visibleCardsDirection == .bottom {
-            let multiplier: CGFloat = index > 0 ? 1.0 : 0.0
-            let prevCardFrame = index > 0 ? frameForCard(at: max(index - 1, 0)) : .zero
-            let yOffset = (prevCardFrame.height - height + prevCardFrame.origin.y + backgroundCardsTopMargin) * multiplier
+            if index == 0 {
+                return self.bounds
+            }
+            let prevCardFrame = frameForCard(at: max(index - 1, 0))
+            let yOffset = (prevCardFrame.height - height + prevCardFrame.origin.y + backgroundCardsTopMargin)
             let frame = CGRect(x: xOffset, y: yOffset, width: width, height: height)
             
             return frame
