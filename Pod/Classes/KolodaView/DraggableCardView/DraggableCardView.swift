@@ -18,7 +18,7 @@ public enum DragSpeed: TimeInterval {
 
 protocol DraggableCardDelegate: class {
     
-    func card(_ card: DraggableCardView, wasDraggedWithFinishPercentage percentage: CGFloat, inDirection direction: SwipeResultDirection)
+    func card(_ card: DraggableCardView, wasDraggedWithFinishPercentage percentage: CGFloat, inDirection direction: SwipeResultDirection, with dragDistance: CGPoint)
     func card(_ card: DraggableCardView, wasSwipedIn direction: SwipeResultDirection)
     func card(_ card: DraggableCardView, shouldSwipeIn direction: SwipeResultDirection) -> Bool
     func card(cardWasReset card: DraggableCardView)
@@ -261,7 +261,8 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             updateOverlayWithFinishPercent(percentage, direction:dragDirection)
             if let dragDirection = dragDirection {
                 //100% - for proportion
-                delegate?.card(self, wasDraggedWithFinishPercentage: min(abs(100 * percentage), 100), inDirection: dragDirection)
+                delegate?.card(self, wasDraggedWithFinishPercentage: min(abs(100 * percentage), 100), inDirection: dragDirection,
+                               with: dragDistance.normalizedDistanceForSize(frame.size))
             }
             
         case .ended:
