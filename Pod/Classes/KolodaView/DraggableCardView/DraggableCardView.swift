@@ -473,7 +473,8 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
     
     func swipe(_ direction: SwipeResultDirection, percentage: CGFloat, completionHandler: @escaping () -> Void) {
         if !dragBegin {
-            delegate?.card(self, wasSwipedIn: direction)
+            // 完全にswipeしないので実行しない
+            // delegate?.card(self, wasSwipedIn: direction)
             
             let swipePositionAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
             swipePositionAnimation?.fromValue = NSValue(cgPoint:POPLayerGetTranslationXY(layer))
