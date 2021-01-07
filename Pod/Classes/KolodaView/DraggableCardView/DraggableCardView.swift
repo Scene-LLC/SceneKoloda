@@ -516,6 +516,8 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
                 (_, _) in
                 completionHandler()
             }
+            
+            layer.pop_add(swipePositionAnimation, forKey: "swipePositionAnimation")
         }
     }
 }
