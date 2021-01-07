@@ -498,7 +498,7 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             
             overlayView?.overlayState = direction
             let overlayAlphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
-            overlayAlphaAnimation?.toValue = 1.0 * percentage
+            overlayAlphaAnimation?.toValue = 1.0 * (percentage * 2)
             overlayAlphaAnimation?.duration = cardSwipeActionAnimationDuration
             overlayView?.pop_add(overlayAlphaAnimation, forKey: "swipeOverlayAnimation")
         }

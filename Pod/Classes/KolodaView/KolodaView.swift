@@ -667,11 +667,10 @@ open class KolodaView: UIView, DraggableCardDelegate {
         }
     }
     
-    public func panGesture(to point: CGPoint) {
+    public func resetCardPosition() {
         if let frontCard = visibleCards.first {
-            let gestureRecognizer = UIPanGestureRecognizer()
-            gestureRecognizer.setTranslation(point, in: frontCard)
-            frontCard.panGestureRecognized(gestureRecognizer)
+            frontCard.layer.shouldRasterize = false
+            frontCard.resetViewPositionAndTransformations()
         }
     }
     
