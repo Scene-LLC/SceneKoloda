@@ -641,7 +641,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
         }
     }
     
-    public func swipe(_ direction: SwipeResultDirection, percentage p: CGFloat) {
+    public func swipe(_ direction: SwipeResultDirection, percentage p: CGFloat, completionHandler: @escaping () -> Void) {
         let shouldSwipe = delegate?.koloda(self, shouldSwipeCardAt: currentCardIndex, in: direction) ?? true
         guard shouldSwipe else { return }
         
@@ -660,10 +660,17 @@ open class KolodaView: UIView, DraggableCardDelegate {
                 
                 frontCard.swipe(direction, percentage: min(p, 1.0)) {
                     self.animationSemaphore.decrement()
+                    completionHandler()
                 }
                 // swipeしきらないのでdelegateは保持する
                 // frontCard.delegate = nil
             }
+        }
+    }
+    
+    public func swipeUpFromCurrent(percentage p: CGFloat, completionHandler: @escaping () -> Void) {
+        if let frontCard = visibleCards.first {
+            frontCard.swipeUpFromCurrent(percentage: p, completionHandler: completionHandler)
         }
     }
     

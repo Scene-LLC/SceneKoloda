@@ -503,4 +503,19 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             overlayView?.pop_add(overlayAlphaAnimation, forKey: "swipeOverlayAnimation")
         }
     }
+    
+    func swipeUpFromCurrent(percentage: CGFloat, completionHandler: @escaping () -> Void) {
+        if !dragBegin {
+            let swipePositionAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
+            swipePositionAnimation?.fromValue = NSValue(cgPoint:POPLayerGetTranslationXY(layer))
+            let swipePosition = animationPointForDirection(.up)
+            swipePositionAnimation?.toValue = NSValue(cgPoint: CGPoint(x: POPLayerGetTranslationXY(layer).x,
+                                                                       y: swipePosition.y * percentage))
+            swipePositionAnimation?.duration = cardSwipeActionAnimationDuration
+            swipePositionAnimation?.completionBlock = {
+                (_, _) in
+                completionHandler()
+            }
+        }
+    }
 }
