@@ -395,7 +395,7 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
         layer.pop_add(translationAnimation, forKey: "swipeTranslationAnimation")
     }
     
-    private func resetViewPositionAndTransformations() {
+    func resetViewPositionAndTransformations() {
         delegate?.card(cardWasReset: self)
         
         removeAnimations()
