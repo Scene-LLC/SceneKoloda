@@ -490,7 +490,7 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             
             let swipeRotationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerRotation)
             swipeRotationAnimation?.fromValue = POPLayerGetRotationZ(layer)
-            let rotationValue = animationRotationForDirection(direction)
+            let rotationValue = direction == .down || direction == .up ? 0 : animationRotationForDirection(direction)
             swipeRotationAnimation?.toValue = CGFloat(rotationValue * percentage)
             swipeRotationAnimation?.duration = cardSwipeActionAnimationDuration
             
