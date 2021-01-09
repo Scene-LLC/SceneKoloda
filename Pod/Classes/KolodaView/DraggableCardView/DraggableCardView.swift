@@ -484,7 +484,6 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             swipePositionAnimation?.removedOnCompletion = false
             swipePositionAnimation?.completionBlock = {
                 (_, _) in
-                self.removeFromSuperview()
                 completionHandler()
             }
             
