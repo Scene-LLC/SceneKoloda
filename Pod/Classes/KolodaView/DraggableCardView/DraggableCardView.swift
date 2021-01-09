@@ -484,8 +484,8 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             let swipePosition = animationPointForDirection(direction)
             swipePositionAnimation.toValue = NSValue(cgPoint:CGPoint(x: swipePosition.x * percentage, y: swipePosition.y * percentage))
             swipePositionAnimation.duration = cardSwipeActionAnimationDuration
-            swipePositionAnimation.isRemovedOnCompletion = true
-            swipePositionAnimation.fillMode = kCAFillModeForwards
+            swipePositionAnimation.isRemovedOnCompletion = false
+            swipePositionAnimation.fillMode = .forwards
             
             layer.add(swipePositionAnimation, forKey: "swipePositionAnimation")
             CATransaction.commit()
@@ -494,6 +494,8 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             let rotationValue = direction == .down || direction == .up ? 0 : animationRotationForDirection(direction)
             swipeRotationAnimation.toValue = CGFloat(rotationValue * percentage)
             swipeRotationAnimation.duration = cardSwipeActionAnimationDuration
+            swipeRotationAnimation.isRemovedOnCompletion = false
+            swipeRotationAnimation.fillMode = .forwards
             
             layer.add(swipeRotationAnimation, forKey: "swipeRotationAnimation")
             
@@ -501,6 +503,9 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             let overlayAlphaAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
             overlayAlphaAnimation.toValue = 1.0 * (percentage * 2)
             overlayAlphaAnimation.duration = cardSwipeActionAnimationDuration
+            overlayAlphaAnimation.isRemovedOnCompletion = false
+            overlayAlphaAnimation.fillMode = .forwards
+            
             overlayView?.layer.add(overlayAlphaAnimation, forKey: "swipeOverlayAnimation")
         }
     }
