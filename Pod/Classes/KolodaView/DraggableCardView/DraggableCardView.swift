@@ -480,7 +480,6 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
                 completionHandler()
             }
             let swipePositionAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.position))
-            swipePositionAnimation.fromValue = NSValue(cgPoint:POPLayerGetTranslationXY(layer))
             let swipePosition = animationPointForDirection(direction)
             swipePositionAnimation.toValue = NSValue(cgPoint:CGPoint(x: swipePosition.x * percentage, y: swipePosition.y * percentage))
             swipePositionAnimation.duration = cardSwipeActionAnimationDuration
