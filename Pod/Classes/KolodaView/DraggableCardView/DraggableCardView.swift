@@ -475,32 +475,33 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
         if !dragBegin {
             // 完全にswipeしないので実行しない
             // delegate?.card(self, wasSwipedIn: direction)
-            
-            let swipePositionAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
-            swipePositionAnimation?.fromValue = NSValue(cgPoint:POPLayerGetTranslationXY(layer))
-            let swipePosition = animationPointForDirection(direction)
-            swipePositionAnimation?.toValue = NSValue(cgPoint:CGPoint(x: swipePosition.x * percentage, y: swipePosition.y * percentage))
-            swipePositionAnimation?.duration = cardSwipeActionAnimationDuration
-            swipePositionAnimation?.completionBlock = {
-                (_, _) in
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
                 completionHandler()
             }
+            let swipePositionAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.position))
+            swipePositionAnimation.fromValue = NSValue(cgPoint:POPLayerGetTranslationXY(layer))
+            let swipePosition = animationPointForDirection(direction)
+            swipePositionAnimation.toValue = NSValue(cgPoint:CGPoint(x: swipePosition.x * percentage, y: swipePosition.y * percentage))
+            swipePositionAnimation.duration = cardSwipeActionAnimationDuration
+            swipePositionAnimation.isRemovedOnCompletion = true
+            swipePositionAnimation.fillMode = kCAFillModeForwards
             
-            layer.pop_add(swipePositionAnimation, forKey: "swipePositionAnimation")
+            layer.add(swipePositionAnimation, forKey: "swipePositionAnimation")
+            CATransaction.commit()
             
-            let swipeRotationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerRotation)
-            swipeRotationAnimation?.fromValue = POPLayerGetRotationZ(layer)
+            let swipeRotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
             let rotationValue = direction == .down || direction == .up ? 0 : animationRotationForDirection(direction)
-            swipeRotationAnimation?.toValue = CGFloat(rotationValue * percentage)
-            swipeRotationAnimation?.duration = cardSwipeActionAnimationDuration
+            swipeRotationAnimation.toValue = CGFloat(rotationValue * percentage)
+            swipeRotationAnimation.duration = cardSwipeActionAnimationDuration
             
-            layer.pop_add(swipeRotationAnimation, forKey: "swipeRotationAnimation")
+            layer.add(swipeRotationAnimation, forKey: "swipeRotationAnimation")
             
             overlayView?.overlayState = direction
-            let overlayAlphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
-            overlayAlphaAnimation?.toValue = 1.0 * (percentage * 2)
-            overlayAlphaAnimation?.duration = cardSwipeActionAnimationDuration
-            overlayView?.pop_add(overlayAlphaAnimation, forKey: "swipeOverlayAnimation")
+            let overlayAlphaAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
+            overlayAlphaAnimation.toValue = 1.0 * (percentage * 2)
+            overlayAlphaAnimation.duration = cardSwipeActionAnimationDuration
+            overlayView?.layer.add(overlayAlphaAnimation, forKey: "swipeOverlayAnimation")
         }
     }
     
