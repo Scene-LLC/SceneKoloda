@@ -486,7 +486,7 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
                 completionHandler()
             }
             
-            layer.add(swipePositionAnimation, forKey: "swipePositionAnimation")
+            layer.pop_add(swipePositionAnimation, forKey: "swipePositionAnimation")
             
             let swipeRotationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerRotation)
             swipeRotationAnimation?.fromValue = POPLayerGetRotationZ(layer)
